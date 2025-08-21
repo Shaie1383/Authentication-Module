@@ -1,24 +1,26 @@
-const express = require('express');
-const cors = require('cors');
-const dotenv = require('dotenv');
-const authRoutes = require('./routes/auth');
-
-require('dotenv').config();
-
+// server.js
+import express from "express";
+import mysql from "mysql2";
+import bcrypt from "bcrypt";
+import cors from "cors";
 
 const app = express();
+app.use(express.json());
 app.use(cors());
-app.use(express.json()); // Parse JSON bodies
 
-// Auth routes
-app.use('/api/auth', authRoutes);
-
-// Default route
-app.get('/', (req, res) => {
-  res.send('Auth Backend is Running ✅');
+// ✅ REGISTER route
+app.post("/api/register", async (req, res) => {
+  const { fullname, email, password } = req.body;
+  // save into database...
+  res.json({ success: true, message: "User registered successfully" });
 });
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`);
+// ✅ LOGIN route
+app.post("/api/login", async (req, res) => {
+  const { email, password } = req.body;
+  // check DB and return response...
+  res.json({ success: true, message: "Login successful" });
 });
+
+// ✅ Start server
+app.listen(5000, () => console.log("Server running on port 5000"));
